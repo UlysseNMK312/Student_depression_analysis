@@ -29,7 +29,15 @@ def standardize_column_names(df):
     df.columns = df.columns.str.strip().str.lower().str.replace(' ', '_')
     return df
 
-data = standardize_column_names(data)
-print(data.head())
+# --------------------------------------------
+# Suppression des doublons
 
+def remove_duplicates(df):
+    df = df.drop_duplicates()
+    return df
+
+
+data = standardize_column_names(data)
+data = remove_duplicates(data)
+print(data.head())
 
