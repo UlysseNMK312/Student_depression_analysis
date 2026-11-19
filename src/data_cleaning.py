@@ -36,8 +36,24 @@ def remove_duplicates(df):
     df = df.drop_duplicates()
     return df
 
+# --------------------------------------------
+# Correcting data types
+
+def correct_data_types(df):
+
+    for col in df.columns:
+        if col in df.select_dtypes(include=['object']):
+            df[col] = df[col].str.strip().str.lower()
+
+        if col in df.select_dtypes(include=['int64']):
+            df[col] = df[col].astype(int)
+    
+    return df
+
+
 
 data = standardize_column_names(data)
 data = remove_duplicates(data)
+data = correct_data_types(data)
 print(data.head())
 
