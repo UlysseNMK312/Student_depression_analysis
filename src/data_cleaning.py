@@ -22,3 +22,14 @@ except Exception as e:
 
 # Data cleaning
 
+# -------------------------------
+#  Standardisation des noms de colonnes
+
+def standardize_column_names(df):
+    df.columns = df.columns.str.strip().str.lower().str.replace(' ', '_')
+    return df
+
+data = standardize_column_names(data)
+print(data.head())
+
+
