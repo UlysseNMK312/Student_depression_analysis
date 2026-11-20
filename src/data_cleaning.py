@@ -122,6 +122,20 @@ def validate_data(df, rules):
 
     return df
 
+# -------------------------------------------
+# Sauvegarde des donnees
+
+def sauvegarder_donnees(df, path):
+    """
+        Sauvegarde du jeu de donnees ainsi nettoye
+    """
+    os.makedirs(os.path.dirname(path), exist_ok=True)
+    df.to_csv(path, index=False)
+
+    print(f"\nDonnees netoyees enregistrees dans : {path}")
+
+
+
 data = standardize_column_names(data)
 data = remove_duplicates(data)
 data = correct_data_types(data)
@@ -144,3 +158,6 @@ rules = {
 
 data = validate_data(data, rules)
 print(data)
+
+path = r"D:\Documents\self learning\ML\Student Depression\Student_depression_analysis\data\raw"
+sauvegarder_donnees(data, path)
