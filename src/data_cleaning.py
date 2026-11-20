@@ -82,18 +82,31 @@ def detect_outliers(df, column):
     
     return outliers
 
+# -------------------------------------------------
+# Outliers removal
+
+def remove_outliers(df, column):
+    """ Removes outliers from a specified column of the DataFrame using the IQR method."""
+
+    df_cleaned = df.copy()
+
+    for column in data.select_dtypes(include=[np.number]).columns:
+        outliers = detect_outliers(data, column)
+
+        if not outliers.empty:
+            print(f"Outliers detected in column '{column}':")
+            #print(outliers)
+            df_cleaned = df[~df.index.isin(outliers.index)]
+            print(f"Removed {len(outliers)} outliers from column '{column}'.")
+
+        else:
+            print(f"No outliers detected in column '{column}'.")
+        
+    return df_cleaned
 
 data = standardize_column_names(data)
 data = remove_duplicates(data)
 data = correct_data_types(data)
-
-for column in data.select_dtypes(include=[np.number]).columns:
-    outliers = detect_outliers(data, column)
-    if not outliers.empty:
-        print(f"Outliers detected in column '{column}':")
-        print(outliers)
-    else:
-        print(f"No outliers detected in column '{column}'.")
-
-
+removed_outliers_data = remove_outliers(data, data.select_dtypes(include=[np.number]).columns)
+print(f"\n\n\nData shape after removing outliers: {removed_outliers_data.shape}")
 
