@@ -40,7 +40,9 @@ def remove_duplicates(df):
 # Correcting data types
 
 def correct_data_types(df):
-
+    """
+    Corrects the data types of the columns in the DataFrame."""
+    
     for col in df.columns:
         if col in df.select_dtypes(include=['object']):
             df[col] = df[col].str.strip().str.lower()
