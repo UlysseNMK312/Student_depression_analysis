@@ -104,9 +104,43 @@ def remove_outliers(df, column):
         
     return df_cleaned
 
+# ----------------------------------------------
+# Validation des donneee
+
+def validate_data(df, rules):
+    """ Validates the DataFrame by checking for missing values and duplicates."""
+
+    if rules:
+        for col, (min, max) in rules.items():
+            if col in df.columns:
+                df = df[
+                    (df[col] >= min) & (df[col] <= max)
+                ]
+
+    print("\nData validation:")
+    print(f"Dimensions finales : {df.shape}")
+
+    return df
+
 data = standardize_column_names(data)
 data = remove_duplicates(data)
 data = correct_data_types(data)
 removed_outliers_data = remove_outliers(data, data.select_dtypes(include=[np.number]).columns)
 print(f"\n\n\nData shape after removing outliers: {removed_outliers_data.shape}")
 
+# rules dictionnary
+rules = {
+    "age" : (18, 35),
+    "academic_pressure" : (0, 10),
+    "work_pressure" : (0, 5),
+    "cgpa" : (0, 10),
+    "study_satisfaction" : (0, 5),
+    "job_satisfaction" : (0, 5),
+    "work/study_hours" : (0, 12),
+    "financial_stress" : (0, 5),
+    "depression" : (0, 1)
+}
+
+
+data = validate_data(data, rules)
+print(data)
