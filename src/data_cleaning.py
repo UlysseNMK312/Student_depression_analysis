@@ -159,5 +159,5 @@ rules = {
 data = validate_data(data, rules)
 print(data)
 
-path = r"D:\Documents\self learning\ML\Student Depression\Student_depression_analysis\data\raw\student_depression_dataset.csv"
+path = r"D:\Documents\self learning\ML\Student Depression\Student_depression_analysis\data\processed\clean_student_depression_dataset.csv"
 sauvegarder_donnees(data, path)
