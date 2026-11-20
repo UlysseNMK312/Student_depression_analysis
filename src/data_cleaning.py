@@ -26,6 +26,9 @@ except Exception as e:
 #  Standardisation des noms de colonnes
 
 def standardize_column_names(df):
+    """ Standardizes the column names of the DataFrame by stripping whitespace, 
+    converting to lowercase, and replacing spaces with underscores."""
+
     df.columns = df.columns.str.strip().str.lower().str.replace(' ', '_')
     return df
 
@@ -33,6 +36,7 @@ def standardize_column_names(df):
 # Suppression des doublons
 
 def remove_duplicates(df):
+    """ Removes duplicate rows from the DataFrame."""
     df = df.drop_duplicates()
     return df
 
@@ -42,7 +46,7 @@ def remove_duplicates(df):
 def correct_data_types(df):
     """
     Corrects the data types of the columns in the DataFrame."""
-    
+
     for col in df.columns:
         if col in df.select_dtypes(include=['object']):
             df[col] = df[col].str.strip().str.lower()
