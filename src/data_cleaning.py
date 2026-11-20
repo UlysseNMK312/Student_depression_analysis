@@ -56,10 +56,44 @@ def correct_data_types(df):
     
     return df
 
+# --------------------------------------------
+# Outliers detection and removal
+
+def detect_outliers(df, column):
+    """ Detects outliers in a specified column of the DataFrame using the IQR method."""
+
+    if column is None or column not in df.columns:
+        raise ValueError("Column name must be provided and must exist in the DataFrame.")
+
+    for col in column:
+        if col not in df.columns:
+            continue
+    
+    Q1 = df[column].quantile(0.25)
+    Q3 = df[column].quantile(0.75)
+    IQR = Q3 - Q1
+
+    lower_bound = Q1 - 1.5 * IQR
+    upper_bound = Q3 + 1.5 * IQR
+
+    outliers = df[(df[column] < lower_bound) | (df[column] > upper_bound)]
+    print(f"\ncolumn: {column}")
+    print(f"Number of outliers in {column}: {len(outliers)}")
+    
+    return outliers
 
 
 data = standardize_column_names(data)
 data = remove_duplicates(data)
 data = correct_data_types(data)
-print(data.head())
+
+for column in data.select_dtypes(include=[np.number]).columns:
+    outliers = detect_outliers(data, column)
+    if not outliers.empty:
+        print(f"Outliers detected in column '{column}':")
+        print(outliers)
+    else:
+        print(f"No outliers detected in column '{column}'.")
+
+
 
